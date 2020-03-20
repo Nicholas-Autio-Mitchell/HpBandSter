@@ -5,6 +5,7 @@ import time
 
 import Pyro4
 
+from remote_pdb import set_trace
 
 class Job(object):
 	def __init__(self, id, **kwargs):
@@ -74,7 +75,7 @@ class Dispatcher(object):
 	def __init__(self, new_result_callback, run_id='0',
 					ping_interval=10, nameserver='localhost',
 					nameserver_port=None, 
-					host=None, port=None, logger=None, queue_callback=None):
+					host=None,logger=None, queue_callback=None):
 		"""
 		Parameters
 		----------
@@ -91,8 +92,6 @@ class Dispatcher(object):
 		    port of Pyro4 nameserver
 		host: str
 		    ip (or name that resolves to that) of the network interface to use
-		port: int
-		    port set for dispatcher on which to listen
 		logger: logging.Logger
 		    logger-instance for info and debug
 		queue_callback: function
@@ -105,7 +104,6 @@ class Dispatcher(object):
 		self.nameserver = nameserver
 		self.nameserver_port = nameserver_port
 		self.host = host
-		self.port = port
 		self.ping_interval = int(ping_interval)
 		self.shutdown_all_threads = False
 
@@ -137,9 +135,9 @@ class Dispatcher(object):
 			t2 = threading.Thread(target=self.job_runner, name='job_runner')
 			t2.start()
 			self.logger.info('DISPATCHER: started the \'job_runner\' thread')
-	
 
-			self.pyro_daemon = Pyro4.core.Daemon(host=self.host, port=self.port)
+			set_trace()
+			self.pyro_daemon = Pyro4.core.Daemon(host=self.host)
 
 			with Pyro4.locateNS(host=self.nameserver, port=self.nameserver_port) as ns:
 				uri = self.pyro_daemon.register(self, self.pyro_id)
