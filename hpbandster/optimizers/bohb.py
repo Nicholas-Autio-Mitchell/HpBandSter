@@ -72,6 +72,9 @@ class BOHB(Master):
 			a minimum bandwidth (Default: 1e-3) is used instead of zero.
 		iteration_kwargs: dict
 			kwargs to be added to the instantiation of each iteration
+
+		**kwargs are passed onto the super class (Master)
+
 		"""
 
 
