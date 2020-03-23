@@ -138,7 +138,7 @@ class Dispatcher(object):
 			self.logger.info('DISPATCHER: started the \'job_runner\' thread')
 
 			set_trace()
-			self.pyro_daemon = Pyro4.core.Daemon(host=self.host, self.port)
+			self.pyro_daemon = Pyro4.core.Daemon(host=self.host, port=self.port)
 
 			with Pyro4.locateNS(host=self.nameserver, port=self.nameserver_port) as ns:
 				uri = self.pyro_daemon.register(self, self.pyro_id)
