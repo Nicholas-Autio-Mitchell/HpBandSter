@@ -75,7 +75,7 @@ class Dispatcher(object):
 	def __init__(self, new_result_callback, run_id='0',
 					ping_interval=10, nameserver='localhost',
 					nameserver_port=None, 
-					host=None,logger=None, queue_callback=None):
+					host=None, port=None, logger=None, queue_callback=None):
 		"""
 		Parameters
 		----------
@@ -104,6 +104,7 @@ class Dispatcher(object):
 		self.nameserver = nameserver
 		self.nameserver_port = nameserver_port
 		self.host = host
+		self.port = port
 		self.ping_interval = int(ping_interval)
 		self.shutdown_all_threads = False
 
@@ -137,7 +138,7 @@ class Dispatcher(object):
 			self.logger.info('DISPATCHER: started the \'job_runner\' thread')
 
 			set_trace()
-			self.pyro_daemon = Pyro4.core.Daemon(host=self.host)
+			self.pyro_daemon = Pyro4.core.Daemon(host=self.host, self.port)
 
 			with Pyro4.locateNS(host=self.nameserver, port=self.nameserver_port) as ns:
 				uri = self.pyro_daemon.register(self, self.pyro_id)
