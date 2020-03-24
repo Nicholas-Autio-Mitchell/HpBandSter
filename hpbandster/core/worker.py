@@ -7,7 +7,6 @@ import os, socket
 import traceback
 import threading
 import Pyro4
-from remote_pdb import set_trace
 
 
 class Worker(object):
@@ -210,7 +209,6 @@ class Worker(object):
 						'exception' : traceback.format_exc()}
 		finally:
 			self.logger.debug('WORKER: done with job %s, trying to register it.'%str(id))
-			set_trace()
 			with self.thread_cond:
 				self.busy =  False
 				callback.register_result(id, result)

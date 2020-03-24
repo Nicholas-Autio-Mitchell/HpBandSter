@@ -5,7 +5,6 @@ import time
 
 import Pyro4
 
-from remote_pdb import set_trace
 
 class Job(object):
 	def __init__(self, id, **kwargs):
