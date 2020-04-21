@@ -270,7 +270,7 @@ class WarmStartIteration(BaseIteration):
 			new_id = self.add_configuration(config=id2conf[id]['config'], config_info=id2conf[id]['config_info'])
 			
 			for count, r in enumerate(Result.get_runs_by_id(id)):
-			
+
 				j = Job(new_id, config=id2conf[id]['config'], budget=r.budget)
 
 				j.result = {'loss': r.loss, 'info': r.info}
@@ -280,7 +280,7 @@ class WarmStartIteration(BaseIteration):
 					j.timestamps[k] = v + delta_t
 
 				set_trace()
-				self.register_result(j, skip_sanity_checks=False)
+				self.register_result(j, skip_sanity_checks=True)
 				self.logger.debug("Registered result %s -> %s", count, r)
 
 				config_generator.new_result(j, update_model=(i==len(id2conf)-1))
