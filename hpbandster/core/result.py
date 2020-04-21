@@ -167,7 +167,7 @@ def logged_results_to_HBS_result(directory):
 	with open(os.path.join(directory, 'configs.json')) as fh:
 		for i, line in enumerate(fh):
 			line = json.loads(line)
-			logger.debug("[config.json line %s]", i, line)
+			logger.debug("[config.json line %s] %s", i, line)
 
 			if len(line) == 3:
 				config_id, config, config_info = line
@@ -180,7 +180,7 @@ def logged_results_to_HBS_result(directory):
 	with open(os.path.join(directory, 'results.json')) as fh:
 		for i, line in enumerate(fh):
 			line = json.loads(line)
-			logger.debug("[config.json line %s]", i, line)
+			logger.debug("[config.json line %s] %s", i, line)
 			config_id, budget,time_stamps, result, exception = line
 
 			id = tuple(config_id)
