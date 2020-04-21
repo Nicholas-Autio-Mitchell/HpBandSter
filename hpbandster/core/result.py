@@ -1,8 +1,13 @@
 import copy
 import os
 import json
+import logging
 
 from hpbandster.core.base_iteration import  Datum
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.DEBUG)
+
 
 class Run(object):
 	"""
@@ -160,10 +165,10 @@ def logged_results_to_HBS_result(directory):
 	budget_set = set()
 	
 	with open(os.path.join(directory, 'configs.json')) as fh:
-		for line in fh:
-			
+		for i, line in enumerate(fh):
 			line = json.loads(line)
-			
+			logger.debug("[config.json line %s]", i, line)
+
 			if len(line) == 3:
 				config_id, config, config_info = line
 			if len(line) == 2:
@@ -173,8 +178,10 @@ def logged_results_to_HBS_result(directory):
 			data[tuple(config_id)] = Datum(config=config, config_info=config_info)
 
 	with open(os.path.join(directory, 'results.json')) as fh:
-		for line in fh:
-			config_id, budget,time_stamps, result, exception = json.loads(line)
+		for i, line in enumerate(fh):
+			line = json.loads(line)
+			logger.debug("[config.json line %s]", i, line)
+			config_id, budget,time_stamps, result, exception = line
 
 			id = tuple(config_id)
 			
@@ -197,7 +204,9 @@ def logged_results_to_HBS_result(directory):
 						'max_SH_iter': len(budget_set),
 						'time_ref'   : time_ref
 				}
-	return(Result([data], HB_config))
+	result = (Result([data], HB_config))
+	logger.debug("Finished loading previous results!")
+	return result
 
 
 class Result(object):

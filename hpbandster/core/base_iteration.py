@@ -98,7 +98,7 @@ class BaseIteration(object):
 		self.actual_num_configs[self.stage] += 1
 		
 		if not self.result_logger is None:
-		    self.result_logger.new_config(config_id, config, config_info)
+			self.result_logger.new_config(config_id, config, config_info)
 		
 		return(config_id)
 
@@ -251,15 +251,15 @@ class BaseIteration(object):
 
 class WarmStartIteration(BaseIteration):
 	"""
-	iteration that imports a privious Result for warm starting
+	iteration that imports a previous Result for warm starting
 	"""
 
 	def __init__(self, Result, config_generator):
 		
 		self.is_finished=False
 		self.stage = 0
+		self.logger = logging.getLogger("warm_start_logger")
 
-		
 		id2conf = Result.get_id2config_mapping()
 		delta_t = - max(map(lambda r: r.time_stamps['finished'], Result.get_all_runs()))
 

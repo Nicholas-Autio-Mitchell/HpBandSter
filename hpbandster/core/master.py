@@ -76,11 +76,12 @@ class Master(object):
         self.working_directory = working_directory
         os.makedirs(self.working_directory, exist_ok=True)
 
-
         if logger is None:
             self.logger = logging.getLogger('hpbandster')
         else:
             self.logger = logger
+
+        self.logger.debug(">>>>> Received previous_result: %s", previous_result)
 
         self.result_logger = result_logger
 
@@ -104,7 +105,9 @@ class Master(object):
             self.warmstart_iteration = []
 
         else:
+            self.logger.debug("Loading previous results...")
             self.warmstart_iteration = [WarmStartIteration(previous_result, self.config_generator)]
+            self.logger.debug("Loading previous results... DONE")
 
         # condition to synchronize the job_callback and the queue
         self.thread_cond = threading.Condition()
