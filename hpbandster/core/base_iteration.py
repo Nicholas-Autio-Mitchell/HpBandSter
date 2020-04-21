@@ -264,7 +264,6 @@ class WarmStartIteration(BaseIteration):
 
 		id2conf = Result.get_id2config_mapping()
 		delta_t = - max(map(lambda r: r.time_stamps['finished'], Result.get_all_runs()))
-		set_trace()
 		super().__init__(-1, [len(id2conf)]	, [None], None)
 
 		for i, id in enumerate(id2conf):
@@ -272,15 +271,15 @@ class WarmStartIteration(BaseIteration):
 			
 			for count, r in enumerate(Result.get_runs_by_id(id)):
 			
-				set_trace()
 				j = Job(new_id, config=id2conf[id]['config'], budget=r.budget)
-				
+
 				j.result = {'loss': r.loss, 'info': r.info}
 				j.error_logs = r.error_logs
-				
+
 				for k,v in r.time_stamps.items():
 					j.timestamps[k] = v + delta_t
-				
+
+				set_trace()
 				self.register_result(j, skip_sanity_checks=False)
 				self.logger.debug("Registered result %s -> %s", count, r)
 

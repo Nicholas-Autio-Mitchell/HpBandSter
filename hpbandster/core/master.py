@@ -105,9 +105,9 @@ class Master(object):
             self.warmstart_iteration = []
 
         else:
-            self.logger.debug("Loading previous results...")
+            self.logger.debug("Gathering warmstart iterations...")
             self.warmstart_iteration = [WarmStartIteration(previous_result, self.config_generator)]
-            self.logger.debug("Loading previous results... DONE")
+            self.logger.debug("Gathering warmstart iterations... DONE")
 
         # condition to synchronize the job_callback and the queue
         self.thread_cond = threading.Condition()
