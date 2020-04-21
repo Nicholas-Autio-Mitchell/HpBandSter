@@ -4,6 +4,7 @@ import sys
 import logging
 import numpy as np
 import pdb
+from remote_pdb import set_trace
 
 from hpbandster.core.dispatcher import Job
 
@@ -255,23 +256,23 @@ class WarmStartIteration(BaseIteration):
 	"""
 
 	def __init__(self, Result, config_generator):
-		
+
+		self.logger = logging.getLogger("warm_start_logger")
+
 		self.is_finished=False
 		self.stage = 0
-		self.logger = logging.getLogger("warm_start_logger")
 
 		id2conf = Result.get_id2config_mapping()
 		delta_t = - max(map(lambda r: r.time_stamps['finished'], Result.get_all_runs()))
-
+		set_trace()
 		super().__init__(-1, [len(id2conf)]	, [None], None)
-		
-		
+
 		for i, id in enumerate(id2conf):
 			new_id = self.add_configuration(config=id2conf[id]['config'], config_info=id2conf[id]['config_info'])
 			
-			for r in Result.get_runs_by_id(id):
+			for count, r in enumerate(Result.get_runs_by_id(id)):
 			
-				
+				set_trace()
 				j = Job(new_id, config=id2conf[id]['config'], budget=r.budget)
 				
 				j.result = {'loss': r.loss, 'info': r.info}
@@ -280,10 +281,10 @@ class WarmStartIteration(BaseIteration):
 				for k,v in r.time_stamps.items():
 					j.timestamps[k] = v + delta_t
 				
-				self.register_result(j , skip_sanity_checks=True)
-				
+				self.register_result(j, skip_sanity_checks=False)
+				self.logger.debug("Registered result %s -> %s", count, r)
+
 				config_generator.new_result(j, update_model=(i==len(id2conf)-1))
-				
 		# mark as finished, as no more runs should be executed from these runs
 		self.is_finished = True
 		
