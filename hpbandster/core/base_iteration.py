@@ -114,6 +114,8 @@ class BaseIteration(object):
 		if self.is_finished:
 			raise RuntimeError("This HB iteration is finished, you can't register more results!")
 
+		print("in register_result line 117 !!")
+		self.logger.debug("Registering result %s", job)
 		config_id = job.id
 		config = job.kwargs['config']
 		budget = job.kwargs['budget']
@@ -130,6 +132,7 @@ class BaseIteration(object):
 
 		d.time_stamps[budget] = timestamps
 		d.results[budget] = result
+
 
 		if (not job.result is None) and np.isfinite(result['loss']):
 			d.status = 'REVIEW'
@@ -257,7 +260,7 @@ class WarmStartIteration(BaseIteration):
 
 	def __init__(self, Result, config_generator):
 
-		self.logger = logging.getLogger("warm_start_logger")
+		self.logger = logging.getLogger(name="warm_start_logger")
 
 		self.is_finished=False
 		self.stage = 0
