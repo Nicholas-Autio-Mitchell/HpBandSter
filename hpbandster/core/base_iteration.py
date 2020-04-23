@@ -115,7 +115,6 @@ class BaseIteration(object):
 			raise RuntimeError("This HB iteration is finished, you can't register more results!")
 
 		print("in register_result line 117 !!")
-		self.logger.debug("Registering result %s", job)
 		config_id = job.id
 		config = job.kwargs['config']
 		budget = job.kwargs['budget']
@@ -136,11 +135,14 @@ class BaseIteration(object):
 
 		if (not job.result is None) and np.isfinite(result['loss']):
 			d.status = 'REVIEW'
+			print("REVIEW")
 		else:
 			d.status = 'CRASHED'
+			print("CRASHED")
 
 		d.exceptions[budget] = exception
 		self.num_running -= 1
+		print("145: EXITING")
 		
 	def get_next_run(self):
 		"""
