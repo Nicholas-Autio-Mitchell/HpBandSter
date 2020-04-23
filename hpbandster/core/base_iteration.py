@@ -289,7 +289,9 @@ class WarmStartIteration(BaseIteration):
 
 				# set_trace()
 				config_generator.new_result(j, update_model=(i==len(id2conf)-1))
+
 		# mark as finished, as no more runs should be executed from these runs
+		self.logger.debug("Finished loading warmstart Result!")
 		self.is_finished = True
 		
 	def fix_timestamps(self, time_ref):
