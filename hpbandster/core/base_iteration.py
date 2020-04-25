@@ -288,7 +288,7 @@ class WarmStartIteration(BaseIteration):
 				print("Registered a single run (# %s) by ID", count)
 				self.logger.debug("Registered result %s -> %s", count, r)
 
-				set_trace()
+				# set_trace()
 				config_generator.new_result(j, update_model=(i==len(id2conf)-1))
 
 		# mark as finished, as no more runs should be executed from these runs
