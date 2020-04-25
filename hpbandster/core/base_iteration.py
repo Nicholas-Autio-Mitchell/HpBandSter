@@ -288,9 +288,13 @@ class WarmStartIteration(BaseIteration):
 				print("Registered a single run (# {}) by ID".format(count))
 				self.logger.debug("Registered result %s -> %s", count, r)
 
-				config_generator.new_result(j, update_model=(i==len(id2conf)-1))
+				set_trace(host="127.0.0.1", port=34500)
+				try:
+					config_generator.new_result(j, update_model=(i==len(id2conf)-1))
+				except Exception as ex:
+					self.logger.debug("Caught {} - Entering remote debugger...".format(ex.__class__.__name__))
+					set_trace(host="127.0.0.1", port=34500)
 
-		set_trace(host="127.0.0.1", port=34500)
 		# mark as finished, as no more runs should be executed from these runs
 		self.logger.debug("Finished loading warm-start Result!")
 		self.is_finished = True
