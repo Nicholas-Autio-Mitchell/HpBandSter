@@ -207,7 +207,7 @@ class BaseIteration(object):
 	def process_results(self):
 		"""
 		function that is called when a stage is completed and
-		needs to be analyzed befor further computations.
+		needs to be analyzed before further computations.
 
 		The code here implements the original SH algorithms by
 		advancing the k-best (lowest loss) configurations at the current
@@ -288,9 +288,9 @@ class WarmStartIteration(BaseIteration):
 				print("Registered a single run (# {}) by ID".format(count))
 				self.logger.debug("Registered result %s -> %s", count, r)
 
-				# set_trace(host="127.0.0.1", port=34500)
 				config_generator.new_result(j, update_model=(i==len(id2conf)-1))
 
+		set_trace(host="127.0.0.1", port=34500)
 		# mark as finished, as no more runs should be executed from these runs
 		self.logger.debug("Finished loading warm-start Result!")
 		self.is_finished = True
