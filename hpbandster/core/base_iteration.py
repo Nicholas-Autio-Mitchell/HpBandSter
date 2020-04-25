@@ -285,10 +285,10 @@ class WarmStartIteration(BaseIteration):
 					j.timestamps[k] = v + delta_t
 
 				self.register_result(j, skip_sanity_checks=True)
-				print("Registered a single run (# %s) by ID", count)
+				print("Registered a single run (# {}) by ID".format(count))
 				self.logger.debug("Registered result %s -> %s", count, r)
 
-				# set_trace()
+				set_trace()
 				config_generator.new_result(j, update_model=(i==len(id2conf)-1))
 
 		# mark as finished, as no more runs should be executed from these runs
