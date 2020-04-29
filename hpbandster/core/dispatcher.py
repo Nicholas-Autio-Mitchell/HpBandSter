@@ -314,7 +314,6 @@ class Dispatcher(object):
 	@Pyro4.callback
 	@Pyro4.oneway
 	def register_result(self, id=None, result=None):
-
 		self.logger.debug('DISPATCHER: job %s finished'%(str(id)))
 		with self.runner_cond:
 			self.logger.debug('DISPATCHER: register_result: lock acquired')

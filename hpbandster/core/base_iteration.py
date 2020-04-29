@@ -114,7 +114,6 @@ class BaseIteration(object):
 		if self.is_finished:
 			raise RuntimeError("This HB iteration is finished, you can't register more results!")
 
-		print("in register_result line 117 !!")
 		config_id = job.id
 		config = job.kwargs['config']
 		budget = job.kwargs['budget']
@@ -131,18 +130,13 @@ class BaseIteration(object):
 
 		d.time_stamps[budget] = timestamps
 		d.results[budget] = result
-
-
 		if (not job.result is None) and np.isfinite(result['loss']):
 			d.status = 'REVIEW'
-			print("REVIEW")
 		else:
 			d.status = 'CRASHED'
-			print("CRASHED")
 
 		d.exceptions[budget] = exception
 		self.num_running -= 1
-		print("145: EXITING")
 		
 	def get_next_run(self):
 		"""
@@ -292,8 +286,10 @@ class WarmStartIteration(BaseIteration):
 				try:
 					config_generator.new_result(j, update_model=(i==len(id2conf)-1))
 				except Exception as ex:
-					self.logger.debug("Caught {} - Entering remote debugger...".format(ex.__class__.__name__))
-					set_trace(host="127.0.0.1", port=34500)
+					self.logger.debug("Caught {}".format(ex.__class__.__name__))
+					# self.logger.debug("Entering remote debugger...")
+					# set_trace(host="127.0.0.1", port=34500)
+					raise ex from None
 
 		# mark as finished, as no more runs should be executed from these runs
 		self.logger.debug("Finished loading warm-start Result!")
