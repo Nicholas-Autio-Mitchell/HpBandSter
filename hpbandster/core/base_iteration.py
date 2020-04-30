@@ -279,7 +279,6 @@ class WarmStartIteration(BaseIteration):
 					j.timestamps[k] = v + delta_t
 
 				self.register_result(j, skip_sanity_checks=True)
-				print("Registered a single run (# {}) by ID".format(count))
 				self.logger.debug("Registered result %s -> %s", count, r)
 
 				# set_trace(host="127.0.0.1", port=34500)
